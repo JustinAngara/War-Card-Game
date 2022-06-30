@@ -11,7 +11,7 @@ class Cards{
     static shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
+            [array[i], array[j]] = [array[j], array[i]]; 
         }
         return array;
     }
@@ -37,8 +37,6 @@ class Game{
         // a and b reference the same exact memory to player1 and player2 obj
     }
     runSimulation(){
-        // checks if its true
-        let totalIterations=0;
         if (this.a instanceof(Player) && this.b instanceof(Player)){
             // Since both lengths are the same, we can use a for loop
             for(let i = 0;i<this.a.cardsArray.length;i++){
@@ -68,8 +66,7 @@ class Game{
             this.removeCards(card);
         } else{
             this.checkCard();
-        }
-        
+        }  
     }
 
     removeCards(card){
@@ -84,7 +81,8 @@ class Game{
         } 
     }
 }
-let player1 = new Player(Cards.generateCards()[0], "Justin",0);
-let player2 = new Player(Cards.generateCards()[1],"Tyler",0);
+let cardsArr = Cards.generateCards();
+let player1 = new Player(cardsArr[0], "Justin",0);
+let player2 = new Player(cardsArr[1],"Tyler",0);
 let game = new Game(player1,player2);
 console.log(game.runSimulation());
