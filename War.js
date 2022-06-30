@@ -3,10 +3,9 @@ class Cards{
         let cards = [];
         for(let i = 0;i<4;i++){
             for (let j = 1;j<=13;j++){
-                cards.push(Math.floor(Math.random()*j));
+                cards.push(j);
             }
         }
-
         return this.splitArray(this.shuffleArray(cards));
     }
     static shuffleArray(array) {
@@ -31,22 +30,20 @@ class Player{
         this.score=score;
     }
 }
-
 class Game{
     constructor(a,b){
         this.a=a;
         this.b=b;
-        // a and b reference the same exact memory to player1 and player2 obj. Therefore, if a.score gets incremented, player1.score is also incremented
+        // a and b reference the same exact memory to player1 and player2 obj
     }
     runSimulation(){
         // checks if its true
         let totalIterations=0;
         if (this.a instanceof(Player) && this.b instanceof(Player)){
-            while(this.a.cardsArray.length!=0 && this.b.cardsArray.length!=0){
+            // Since both lengths are the same, we can use a for loop
+            for(let i = 0;i<this.a.cardsArray.length;i++){
                 this.checkCard();
-                totalIterations++;       
-            }   
-            console.log(this.a.cardsArray.length +" "+this.b.cardsArray.length+" total iterations:"+totalIterations);
+            }
             return this.compareTo();        
         } 
         return 'Enter valid object';
@@ -65,14 +62,19 @@ class Game{
         
         if(valueA > valueB){    
             this.a.score++;
-            this.a.cardsArray.push(valueB);
-            this.b.cardsArray.splice(card[1],1);
-           
+            this.removeCards(card);
         } else if (valueA < valueB){
             this.b.score++;
-            this.b.cardsArray.push(valueA);
-            this.a.cardsArray.splice(card[0],1);
-        }    
+            this.removeCards(card);
+        } else{
+            this.checkCard();
+        }
+        
+    }
+
+    removeCards(card){
+        this.a.cardsArray.splice(card[0],1);
+        this.b.cardsArray.splice(card[1],1);  
     }
     compareTo(){
         if(this.a.score>this.b.score){
@@ -85,4 +87,4 @@ class Game{
 let player1 = new Player(Cards.generateCards()[0], "Justin",0);
 let player2 = new Player(Cards.generateCards()[1],"Tyler",0);
 let game = new Game(player1,player2);
-alert(game.runSimulation());
+console.log(game.runSimulation());
