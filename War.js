@@ -40,7 +40,6 @@ class Game{
     runSimulation(){
 
         if (this.a instanceof(Player) && this.b instanceof(Player)){
-            // Since both lengths are the same, we can use a for loop
             while(this.a.cardsArray.length>0 && this.keepLooping){
                 this.checkCard();
             }
@@ -76,28 +75,25 @@ class Game{
             this.b.cardsArray.splice(0,3);
             return this.checkCard();
         }
-        return this.checkWarCard(l1,l2);
+        return this.checkLengthCard(l1,l2); // compare length
 
     }
     // war helper methods
-    checkWarCard(l1,l2){
+    checkLengthCard(l1,l2){
         if(l1>l2){
             this.a.score+=1;
-            return this.a;
+            return;
         } else if(l1<l2){
             this.b.score+=1;
-            return this.b;
+            return;
         }
-        return this.compareScoreCard();
+        return this.compareScoreCard(); // compare score of the 0 element
     }
     compareScoreCard(){
         let z = this.a.cardsArray[0] - this.b.cardsArray[0];
         if(z===0){
             return this.removeCards();
-        } else if(z>0){
-            return this.a;
         }
-        return this.b;
     }
     // helper methods for general purpose
     removeCards(){
