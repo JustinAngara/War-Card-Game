@@ -50,7 +50,8 @@ class Game{
     }
 
     checkCard(){
-        console.log(this.a.cardsArray+"\n"+this.b.cardsArray);
+        console.log(this.a.cardsArray + " Score: "+this.a.score 
+        +"\n"+this.b.cardsArray+" Score: "+this.b.score);
         // gets value of the random index
         let valueA = this.a.cardsArray[0];
         let valueB = this.b.cardsArray[0];
@@ -63,8 +64,7 @@ class Game{
             this.removeCards();
         } else{
             if(this.war()=="end"){
-                this.keepLooping=false;
-                
+                this.keepLooping=false;        
             }
         }  
     }
@@ -75,18 +75,17 @@ class Game{
             this.a.cardsArray.splice(0,3);
             this.b.cardsArray.splice(0,3);
             return this.checkCard();
-        } 
-        console.log("GOING INTO WAR");
+        }
         return this.checkWarCard(l1,l2);
 
     }
     // war helper methods
     checkWarCard(l1,l2){
         if(l1>l2){
-            this.a.score= 1+this.b.score;
+            this.a.score+=1;
             return this.a;
         } else if(l1<l2){
-            this.b.score=1+this.a.score;
+            this.b.score+=1;
             return this.b;
         }
         return this.compareScoreCard();
