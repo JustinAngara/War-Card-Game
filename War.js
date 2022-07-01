@@ -34,55 +34,92 @@ class Game{
     constructor(a,b){
         this.a=a;
         this.b=b;
+        this.keepLooping=true;
         // a and b reference the same exact memory to player1 and player2 obj
     }
     runSimulation(){
+
         if (this.a instanceof(Player) && this.b instanceof(Player)){
             // Since both lengths are the same, we can use a for loop
-            for(let i = 0;i<this.a.cardsArray.length;i++){
+            while(this.a.cardsArray.length>0 && this.keepLooping){
                 this.checkCard();
             }
             return this.compareTo();        
         } 
         return 'Enter valid object';
     }
-    getRandomIndex(){
-        let randomIndex = [];
-        randomIndex.push(Math.floor(Math.random()*this.a.cardsArray.length)); // returns a random index  from 'a' in an array[0]
-        randomIndex.push(Math.floor(Math.random()*this.b.cardsArray.length));// returns a random index from 'b' in an array[1]
-        return randomIndex;
-    }
+
     checkCard(){
-        let card = this.getRandomIndex();
+        console.log(this.a.cardsArray+"\n"+this.b.cardsArray);
         // gets value of the random index
-        let valueA = this.a.cardsArray[card[0]];
-        let valueB = this.b.cardsArray[card[1]];
+        let valueA = this.a.cardsArray[0];
+        let valueB = this.b.cardsArray[0];
         
         if(valueA > valueB){    
             this.a.score++;
-            this.removeCards(card);
+            this.removeCards();
         } else if (valueA < valueB){
             this.b.score++;
-            this.removeCards(card);
+            this.removeCards();
         } else{
-            this.checkCard();
+            if(this.war()=="end"){
+                this.keepLooping=false;
+                
+            }
         }  
     }
+    war(){
+        let l1 =this.a.cardsArray.length;
+        let l2 = this.b.cardsArray.length 
+        if(l1 > 3 && l2>3){
+            this.a.cardsArray.splice(0,3);
+            this.b.cardsArray.splice(0,3);
+            return this.checkCard();
+        } 
+        console.log("GOING INTO WAR");
+        return this.checkWarCard(l1,l2);
 
-    removeCards(card){
-        this.a.cardsArray.splice(card[0],1);
-        this.b.cardsArray.splice(card[1],1);  
+    }
+    // war helper methods
+    checkWarCard(l1,l2){
+        if(l1>l2){
+            this.a.score= 1+this.b.score;
+            return this.a;
+        } else if(l1<l2){
+            this.b.score=1+this.a.score;
+            return this.b;
+        }
+        return this.compareScoreCard();
+    }
+    compareScoreCard(){
+        let z = this.a.cardsArray[0] - this.b.cardsArray[0];
+        if(z===0){
+            return this.removeCards();
+        } else if(z>0){
+            return this.a;
+        }
+        return this.b;
+    }
+    // helper methods for general purpose
+    removeCards(){
+        this.a.cardsArray.splice(0,1);
+        this.b.cardsArray.splice(0,1);  
     }
     compareTo(){
         if(this.a.score>this.b.score){
             return this.a.name+' won!';
         } else if (this.a.score<this.b.score){
             return this.b.name+' won!';
-        } 
+        } else{
+            return "You both lost";
+        }
     }
 }
 let cardsArr = Cards.generateCards();
 let player1 = new Player(cardsArr[0], "Justin",0);
 let player2 = new Player(cardsArr[1],"Tyler",0);
 let game = new Game(player1,player2);
-console.log(game.runSimulation());
+console.log(game.runSimulation()+`
+PLAYER 1 SCORE ${player1.score}
+PLAYER 2 SCORE ${player2.score}
+`);
