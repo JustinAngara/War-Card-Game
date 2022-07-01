@@ -38,8 +38,8 @@ class Game{
         // a and b reference the same exact memory to player1 and player2 obj
     }
     runSimulation(){
-
         if (this.a instanceof(Player) && this.b instanceof(Player)){
+
             while(this.a.cardsArray.length>0 && this.keepLooping){
                 this.checkCard();
             }
@@ -62,9 +62,7 @@ class Game{
             this.b.score++;
             this.removeCards();
         } else{
-            if(this.war()=="end"){
-                this.keepLooping=false;        
-            }
+            this.war()
         }  
     }
     war(){
