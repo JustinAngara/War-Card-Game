@@ -1,0 +1,23 @@
+{
+  "name": "w",
+  "version": "1.0.0",
+  "description": "",
+  "main": "Test.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JustinAngara/War-Card-Game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JustinAngara/War-Card-Game/issues"
+  },
+  "homepage": "https://github.com/JustinAngara/War-Card-Game#readme",
+  "dependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^10.0.0"
+  }
+}
